@@ -3,6 +3,26 @@
 Auto-generated journal of project changes.
 Generated: 2026-01-05 19:39
 
+## 2026-08-27 18:32
+
+**Commit:** `9a15a9b`
+
+fix(ci): repair invalid HCL that broke terraform init
+
+variables.tf declared four variables as single-line blocks holding two
+arguments each; HCL only allows one argument in single-line form, so
+'terraform init' failed to parse the module and CI has been red since
+2026-01-23. main.tf had the same problem in the lambda_trust statement
+block (semicolon-separated arguments) plus unformatted jsonencode blocks.
+
+Also drops AWS_REGION from the Lambda environment: it is a reserved key
+that AWS rejects at apply time, and the runtime provides it anyway.
+
+**Files:** infra/main.tf,infra/variables.tf
+
+---
+
+
 ## 2026-01-23 12:36
 
 **Commit:** 
